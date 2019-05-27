@@ -85,9 +85,9 @@ describe('Authenticator', () => {
             const failingValues = [false, null, '', undefined, 'invalidtoken'];
 
             const expectedError = new Error('Invalid JWT');
-            expectedError.statusCode = 403;
 
-            expect.assertions(failingValues.length + 1);
+            // 2 assertions per failing value, and an extra one for `console.error` calls
+            expect.assertions(failingValues.length * 2 + 1);
 
             console.error = jest.fn();
 
@@ -96,6 +96,7 @@ describe('Authenticator', () => {
                     let res = Authenticator.decodeToken(value);
                 } catch (e) {
                     expect(e).toEqual(expectedError);
+                    expect(e.statusCode).toEqual(4203);
                 }
             }
 
