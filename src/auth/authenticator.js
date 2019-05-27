@@ -1,11 +1,11 @@
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
 
-import userManager from '../users/userManager';
+import UserManager from '../users/userManager';
 import { jwtSecret } from '../../config';
 
 const throwJWTError = () => {
-    const err = new Error('Invalid JWT Token');
+    const err = new Error('Invalid JWT');
     err.statusCode = 403;
     throw err;
 };
@@ -13,7 +13,7 @@ const throwJWTError = () => {
 export default class Authenticator {
     // Return a token or `false` on failure
     static async login(username, password) {
-        const user = await userManager.getUserByUsername(username);
+        const user = await UserManager.getUserByUsername(username);
 
         if (!user) {
             return null;
