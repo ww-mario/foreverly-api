@@ -3,7 +3,7 @@ module.exports = {
         'browser': true,
         'es6': true
     },
-    'extends': 'eslint:recommended',
+    "extends": ['plugin:prettier/recommended'],
     'globals': {
         'Atomics': 'readonly',
         'SharedArrayBuffer': 'readonly'
@@ -28,6 +28,14 @@ module.exports = {
         'semi': [
             'error',
             'always'
+        ],
+        "prettier/prettier": [
+            "error", 
+            { 
+                "singleQuote": true,
+                "semicolons": true,
+                "tabWidth": 4
+            }
         ]
     }
 };

@@ -4,7 +4,6 @@ import client from '../db/client';
 import { saltRounds } from '../../config';
 
 export default class UserManager {
-
     // Create a user and return their user ID
     static async createUser(username, password, email) {
         const hashedPass = await bcrypt.hash(password, saltRounds);

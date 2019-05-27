@@ -27,7 +27,7 @@ authRouter.post('/login', async (req, res) => {
     if (token) {
         return res.send({ token });
     }
-    
+
     return res.send({
         type: 'error',
         message: 'Invalid login'

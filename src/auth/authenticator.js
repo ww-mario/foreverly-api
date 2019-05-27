@@ -4,14 +4,13 @@ import bcrypt from 'bcrypt';
 import userManager from '../users/userManager';
 import { jwtSecret } from '../../config';
 
-const throwJWTError = () => { 
+const throwJWTError = () => {
     const err = new Error('Invalid JWT Token');
     err.statusCode = 403;
     throw err;
 };
 
 export default class Authenticator {
-    
     // Return a token or `false` on failure
     static async login(username, password) {
         const user = await userManager.getUserByUsername(username);
@@ -46,6 +45,5 @@ export default class Authenticator {
             console.error('JSON Web Token Error: ', e);
             throwJWTError();
         }
-
     }
 }
