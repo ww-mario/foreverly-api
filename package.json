@@ -9,6 +9,7 @@
   "private": true,
   "scripts": {
     "start": "nodemon --exec babel-node src/index.js",
+    "debug": "nodemon --exec babel-node --inspect src/index.js",
     "lint": "./node_modules/.bin/eslint --ext .js src/"
   },
   "devDependencies": {

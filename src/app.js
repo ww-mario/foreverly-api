@@ -1,5 +1,7 @@
 import express from 'express';
 
+import errorHandler from './routes/util/errorHandler';
+
 const port = 8080;
 const app = express();
 
@@ -14,6 +16,9 @@ app.use('/auth', authRouter);
 app.use('/user', userRouter);
 
 app.get('/version', (req, res) => res.send('Hi'));
+
+// Custom error handler (must be used last)
+app.use(errorHandler);
 
 app.listen(port, () => {
     // eslint-disable-next-line no-console

@@ -4,6 +4,12 @@ import bcrypt from 'bcrypt';
 import userManager from '../users/userManager';
 import { jwtSecret } from '../../config';
 
+const throwJWTError = () => { 
+    const err = new Error('Invalid JWT Token');
+    err.statusCode = 403;
+    throw err;
+};
+
 export default class Authenticator {
     
     // Return a token or `false` on failure
@@ -14,6 +20,7 @@ export default class Authenticator {
             return null;
         }
 
+        // Check the password hash
         const match = await bcrypt.compare(password, user.password);
 
         if (!match) {
@@ -29,9 +36,16 @@ export default class Authenticator {
 
     static decodeToken(token) {
         if (!token) {
-            throw new Error('Invalid JWT token');
+            throwJWTError();
         }
 
-        return jwt.verify(token, jwtSecret);
+        try {
+            return jwt.verify(token, jwtSecret);
+        } catch (e) {
+            // eslint-disable-next-line no-console
+            console.error('JSON Web Token Error: ', e);
+            throwJWTError();
+        }
+
     }
 }

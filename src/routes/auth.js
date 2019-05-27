@@ -25,10 +25,10 @@ authRouter.post('/login', async (req, res) => {
     const token = await Authenticator.login(username, password);
 
     if (token) {
-        res.send({ token });
+        return res.send({ token });
     }
     
-    res.send({
+    return res.send({
         type: 'error',
         message: 'Invalid login'
     });
