@@ -15,7 +15,22 @@ import userRouter from './routes/user';
 app.use('/auth', authRouter);
 app.use('/user', userRouter);
 
-app.get('/version', (req, res) => res.send('Hi'));
+// Version endpoint
+let _cached_version;
+
+app.get('/version', (req, res) => {
+    if (_cached_version) {
+        return res.send({ version: _cached_version });
+    }
+
+    return import('child_process').then(cp => {
+        const version = (_cached_version = cp
+            .execSync('git rev-parse --short HEAD')
+            .toString('utf-8')
+            .replace(/\n/, ''));
+        return res.send({ version });
+    });
+});
 
 // Custom error handler (must be used last)
 app.use(errorHandler);

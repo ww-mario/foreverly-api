@@ -1,5 +1,6 @@
 {
     "presets": ["@babel/env"],
+    "plugins": ["dynamic-import-node-babel-7"],
     "env": {
         "test": {
             "plugins": ["@babel/plugin-transform-runtime"]
