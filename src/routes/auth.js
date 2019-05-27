@@ -3,35 +3,43 @@ import express from 'express';
 import Authenticator from '../auth/authenticator';
 import UserManager from '../users/userManager';
 
+import withCatch from './util/withCatch';
+
 const authRouter = express.Router();
 
-authRouter.post('/create', async (req, res) => {
-    const { username, password, email } = req.body;
+authRouter.post(
+    '/create',
+    withCatch(async (req, res, next) => {
+        const { username, password, email } = req.body;
 
-    const userId = await UserManager.createUser(username, password, email);
+        const userId = await UserManager.createUser(username, password, email);
 
-    let token = null;
+        let token = null;
 
-    if (userId) {
-        token = Authenticator.createToken(username, userId);
-    }
+        if (userId) {
+            token = Authenticator.createToken(username, userId);
+        }
 
-    res.send({ token });
-});
+        res.send({ token });
+    })
+);
 
-authRouter.post('/login', async (req, res) => {
-    const { username, password } = req.body;
+authRouter.post(
+    '/login',
+    withCatch(async (req, res) => {
+        const { username, password } = req.body;
 
-    const token = await Authenticator.login(username, password);
+        const token = await Authenticator.login(username, password);
 
-    if (token) {
-        return res.send({ token });
-    }
+        if (token) {
+            return res.send({ token });
+        }
 
-    return res.send({
-        type: 'error',
-        message: 'Invalid login'
-    });
-});
+        return res.send({
+            type: 'error',
+            message: 'Invalid login'
+        });
+    })
+);
 
 export default authRouter;

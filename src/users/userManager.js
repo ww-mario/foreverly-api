@@ -14,9 +14,12 @@ export default class UserManager {
             RETURNING "user".user_id
         `;
 
-        const result = await client.query(qs, [username, hashedPass, email]);
-
-        return result.rows[0].user_id;
+        try {
+            return (await client.first(qs, [username, hashedPass, email]))
+                .user_id;
+        } catch (e) {
+            throw new Error('Username or password already exists');
+        }
     }
 
     static async getUserByUsername(username) {
@@ -25,7 +28,7 @@ export default class UserManager {
             WHERE username = $1
         `;
 
-        return (await client.query(qs, [username])).rows[0];
+        return await client.first(qs, [username]);
     }
 
     static async getUserById(userId) {
@@ -34,6 +37,6 @@ export default class UserManager {
             WHERE user_id = $1
         `;
 
-        return (await client.query(qs, [userId])).rows[0];
+        return await client.first(qs, [userId]);
     }
 }

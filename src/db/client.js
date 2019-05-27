@@ -10,4 +10,8 @@ const client = new Client({
 
 client.connect();
 
+client.first = async (qs, params) => {
+    return (await client.query(qs, params)).rows[0] || null;
+};
+
 export default client;
