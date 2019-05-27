@@ -96,7 +96,7 @@ describe('Authenticator', () => {
                     let res = Authenticator.decodeToken(value);
                 } catch (e) {
                     expect(e).toEqual(expectedError);
-                    expect(e.statusCode).toEqual(4203);
+                    expect(e.statusCode).toEqual(403);
                 }
             }
 
