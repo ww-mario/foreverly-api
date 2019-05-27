@@ -2,7 +2,6 @@ import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
 
 import UserManager from '../users/userManager';
-import { jwtSecret } from '../../config';
 
 const throwJWTError = () => {
     const err = new Error('Invalid JWT');
@@ -30,7 +29,7 @@ export default class Authenticator {
     }
 
     static createToken(username, userId) {
-        return jwt.sign({ username, userId }, jwtSecret);
+        return jwt.sign({ username, userId }, process.env.JWT_SECRET);
     }
 
     static decodeToken(token) {
@@ -39,7 +38,7 @@ export default class Authenticator {
         }
 
         try {
-            return jwt.verify(token, jwtSecret);
+            return jwt.verify(token, process.env.JWT_SECRET);
         } catch (e) {
             // eslint-disable-next-line no-console
             console.error('JSON Web Token Error: ', e);

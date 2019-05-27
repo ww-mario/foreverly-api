@@ -5,5 +5,5 @@ export default fn => {
         } catch (e) {
             next(e);
         }
-    }
-}
+    };
+};

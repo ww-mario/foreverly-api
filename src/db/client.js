@@ -1,11 +1,11 @@
 import { Client } from 'pg';
 
 const client = new Client({
-    user: 'foreverly',
-    database: 'foreverly',
-    password: 'forever',
-    host: 'localhost',
-    port: 5432
+    user: process.env.DB_USER,
+    database: process.env.DB_DATABASE,
+    password: process.env.DB_PASSWORD,
+    host: process.env.DB_HOST,
+    port: process.env.DB_PORT
 });
 
 client.connect();

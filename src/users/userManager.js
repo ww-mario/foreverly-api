@@ -1,12 +1,14 @@
 import bcrypt from 'bcrypt';
 
 import client from '../db/client';
-import { saltRounds } from '../../config';
 
 export default class UserManager {
     // Create a user and return their user ID
     static async createUser(username, password, email) {
-        const hashedPass = await bcrypt.hash(password, saltRounds);
+        const hashedPass = await bcrypt.hash(
+            password,
+            process.env.JWT_SALT_ROUNDS
+        );
 
         const qs = `
             INSERT INTO "user" (username, password, email)
