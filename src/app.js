@@ -28,6 +28,7 @@ app.get('/version', (req, res) => {
             .execSync('git rev-parse --short HEAD')
             .toString('utf-8')
             .replace(/\n/, ''));
+
         return res.send({ version });
     });
 });
