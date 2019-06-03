@@ -11,7 +11,8 @@
     "start": "nodemon -r node_modules/dotenv/config --exec babel-node src/index.js",
     "debug": "nodemon -r node_modules/dotenv/config --exec babel-node --inspect src/index.js",
     "lint": "./node_modules/.bin/eslint --ext .js src/",
-    "test": "jest --setupFiles ./node_modules/dotenv/config"
+    "test": "jest --setupFiles ./node_modules/dotenv/config",
+    "precommit": "yarn test && yarn lint"
   },
   "devDependencies": {
     "@babel/cli": "^7.4.4",
@@ -36,12 +37,13 @@
     "dotenv": "^8.0.0",
     "express": "^4.17.1",
     "jsonwebtoken": "^8.5.1",
-    "pg": "^7.11.0"
+    "pg": "^7.11.0",
+    "redis": "^2.8.0"
   },
   "husky": {
     "hooks": {
-      "pre-commit": "yarn test && yarn lint",
-      "pre-push": "yarn test && yarn lint"
+      "pre-commit": "yarn precommit",
+      "pre-push": "yarn precommit"
     }
   }
 }
